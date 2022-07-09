@@ -1,6 +1,7 @@
 package com.murilonerdx.apirestkotlin.controller
 
 import com.murilonerdx.apirestkotlin.dto.TopicoDTO
+import com.murilonerdx.apirestkotlin.exception.NotFoundException
 import com.murilonerdx.apirestkotlin.model.Curso
 import com.murilonerdx.apirestkotlin.model.Resposta
 import com.murilonerdx.apirestkotlin.model.Topico
@@ -20,7 +21,8 @@ class TopicoController(private val repository: TopicoRepository) {
     @GetMapping
     fun listar(): List<TopicoDTO> = repository.findAll().mapNotNull { x -> TopicoViewMapper().mapper(x) }.toList()
     @GetMapping("/{id}")
-    fun buscarPorId(@PathVariable("id") id: Long): ResponseEntity<TopicoDTO> =  ResponseEntity.ok().body(TopicoViewMapper().mapper(repository.findById(id).get()))
+    fun buscarPorId(@PathVariable("id") id: Long): ResponseEntity<TopicoDTO> =  ResponseEntity.ok().body(TopicoViewMapper().mapper(repository.findById(id)
+        .orElseThrow { NotFoundException("Id " + id + " não encontrado") }))
 
     @PostMapping
     fun criarTopico(@RequestBody topico: Topico): ResponseEntity<TopicoDTO> {
