@@ -28,7 +28,7 @@ class SwaggerConfig: WebMvcConfigurer {
         return ApiInfoBuilder()
             .title("Kotlin Spring Rest API title")
             .description("Kotlin Spring Rest API description")
-            .contact(Contact("Contact Name", "@murilonerdx", "mu-silva@outlook.com"))
+            .contact(Contact("Contact Name", "murilonerdx", "mu-silva@outlook.com"))
             .version("1.0")
             .license("No License")
             .licenseUrl("https://www.github.com/murilonerdx")
