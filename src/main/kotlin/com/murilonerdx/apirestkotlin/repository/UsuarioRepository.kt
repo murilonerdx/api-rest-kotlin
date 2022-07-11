@@ -1,4 +1,4 @@
-package br.com.alura.forum.repository
+package com.murilonerdx.apirestkotlin.repository
 
 import com.murilonerdx.apirestkotlin.model.Usuario
 import org.springframework.data.jpa.repository.JpaRepository

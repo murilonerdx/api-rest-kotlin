@@ -1,4 +1,4 @@
-package br.com.alura.forum.repository
+package com.murilonerdx.apirestkotlin.repository
 
 import com.murilonerdx.apirestkotlin.dto.TopicoPorCategoriaDTO
 import com.murilonerdx.apirestkotlin.model.Topico

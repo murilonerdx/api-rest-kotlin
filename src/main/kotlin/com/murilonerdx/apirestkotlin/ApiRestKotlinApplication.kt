@@ -5,7 +5,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories
 
-@EnableJpaRepositories("br.com.alura.forum.repository")
+@EnableJpaRepositories("com.murilonerdx.apirestkotlin.repository")
 @SpringBootApplication
 class ApiRestKotlinApplication
 

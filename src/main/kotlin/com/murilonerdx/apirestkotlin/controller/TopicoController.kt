@@ -1,16 +1,10 @@
 package com.murilonerdx.apirestkotlin.controller
 
-import br.com.alura.forum.repository.TopicoRepository
+import com.murilonerdx.apirestkotlin.repository.TopicoRepository
 import com.murilonerdx.apirestkotlin.dto.TopicoDTO
 import com.murilonerdx.apirestkotlin.exception.NotFoundException
-import com.murilonerdx.apirestkotlin.model.Curso
-import com.murilonerdx.apirestkotlin.model.Resposta
 import com.murilonerdx.apirestkotlin.model.Topico
-import com.murilonerdx.apirestkotlin.model.Usuario
-import com.murilonerdx.apirestkotlin.model.enums.StatusTopico
 import com.murilonerdx.apirestkotlin.model.mapper.TopicoViewMapper
-import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.boot.autoconfigure.data.web.SpringDataWebProperties
 import org.springframework.cache.annotation.CacheEvict
 import org.springframework.cache.annotation.Cacheable
 import org.springframework.data.domain.Pageable
@@ -18,7 +12,6 @@ import org.springframework.data.domain.Sort
 import org.springframework.data.web.PageableDefault
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
-import java.time.LocalDateTime
 
 @RestController
 @RequestMapping("/api/v1/topicos")
