@@ -1,5 +1,6 @@
 package com.murilonerdx.apirestkotlin.controller
 
+import br.com.alura.forum.repository.TopicoRepository
 import com.murilonerdx.apirestkotlin.dto.TopicoDTO
 import com.murilonerdx.apirestkotlin.exception.NotFoundException
 import com.murilonerdx.apirestkotlin.model.Curso
@@ -8,7 +9,6 @@ import com.murilonerdx.apirestkotlin.model.Topico
 import com.murilonerdx.apirestkotlin.model.Usuario
 import com.murilonerdx.apirestkotlin.model.enums.StatusTopico
 import com.murilonerdx.apirestkotlin.model.mapper.TopicoViewMapper
-import com.murilonerdx.apirestkotlin.repository.TopicoRepository
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.autoconfigure.data.web.SpringDataWebProperties
 import org.springframework.cache.annotation.CacheEvict
@@ -49,9 +49,9 @@ class TopicoController(private val repository: TopicoRepository) {
     }
 
     @GetMapping("/curso")
-    fun buscarNomCurso(@RequestParam("nomeCurso") nomeCurso: String): ResponseEntity<List<TopicoDTO>> =  ResponseEntity
+    fun buscarNomCurso(@RequestParam("nomeCurso") nomeCurso: String, @PageableDefault(size = 5) pageable: Pageable): ResponseEntity<List<TopicoDTO>> =  ResponseEntity
         .ok()
-        .body(repository.findByCursoNome(nomeCurso).map { x -> TopicoViewMapper().mapper(x) }.toList())
+        .body(repository.findByCursoNome(nomeCurso, pageable).map { x -> TopicoViewMapper().mapper(x) }.toList())
 
     @PutMapping("/{id}")
     @CacheEvict("topicos", allEntries = true)

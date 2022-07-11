@@ -1,16 +1,18 @@
-package com.murilonerdx.apirestkotlin.repository
+package br.com.alura.forum.repository
 
-import com.murilonerdx.apirestkotlin.model.Curso
-import com.murilonerdx.apirestkotlin.model.Resposta
+import com.murilonerdx.apirestkotlin.dto.TopicoPorCategoriaDTO
 import com.murilonerdx.apirestkotlin.model.Topico
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.Pageable
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.data.jpa.repository.Query
 import org.springframework.stereotype.Repository
 
 @Repository
-interface TopicoRepository : JpaRepository<Topico, Long> {
-    fun findByCursoNome(nome: String): List<Topico>
+interface TopicoRepository: JpaRepository<Topico, Long> {
+    fun findByCursoNome(nomeCurso: String, paginacao: Pageable): Page<Topico>
 
-    @Query("select r from Resposta r where r.topico.autor.nome = :autor")
-    fun findByTopicoAutorNome(autor: String): List<Resposta>
+    @Query("SELECT new com.murilonerdx.apirestkotlin.dto.TopicoPorCategoriaDTO(curso.categoria, count(t)) FROM Topico t JOIN t.curso curso GROUP BY curso.categoria")
+    fun relatorio(): List<TopicoPorCategoriaDTO>
+
 }

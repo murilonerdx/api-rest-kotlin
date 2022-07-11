@@ -16,7 +16,7 @@
     <properties>
         <java.version>11</java.version>
         <kotlin.version>1.6.21</kotlin.version>
-        <springfox-swagger2.version>2.9.2</springfox-swagger2.version>
+        <springfox-swagger2.version>3.0.0</springfox-swagger2.version>
         <io.springfox>1.6.0</io.springfox>
         <openapi-generator-maven-plugin.version>4.2.2</openapi-generator-maven-plugin.version>
         <jackson.version>2.9.10</jackson.version>
@@ -80,6 +80,11 @@
             <groupId>com.fasterxml.jackson.datatype</groupId>
             <artifactId>jackson-datatype-hibernate5</artifactId>
             <version>${jackson.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-boot-starter</artifactId>
+            <version>3.0.0</version>
         </dependency>
         <dependency>
             <groupId>com.fasterxml.jackson.datatype</groupId>
