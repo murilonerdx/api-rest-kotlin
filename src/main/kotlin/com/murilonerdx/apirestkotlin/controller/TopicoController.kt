@@ -2,6 +2,7 @@ package com.murilonerdx.apirestkotlin.controller
 
 import com.murilonerdx.apirestkotlin.repository.TopicoRepository
 import com.murilonerdx.apirestkotlin.dto.TopicoDTO
+import com.murilonerdx.apirestkotlin.dto.TopicoView
 import com.murilonerdx.apirestkotlin.exception.NotFoundException
 import com.murilonerdx.apirestkotlin.model.Curso
 import com.murilonerdx.apirestkotlin.model.Topico
@@ -34,17 +35,17 @@ class TopicoController(
             sort = ["dataCriacao"],
             direction = Sort.Direction.DESC
         ) paginacao: Pageable
-    ): List<TopicoDTO> = repository.findAll(paginacao).mapNotNull { x -> TopicoViewMapper().mapper(x) }.toList()
+    ): List<TopicoView> = repository.findAll(paginacao).mapNotNull { x -> TopicoViewMapper().mapper(x) }.toList()
 
     @GetMapping("/{id}")
-    fun buscarPorId(@PathVariable("id") id: Long): ResponseEntity<TopicoDTO> = ResponseEntity.ok().body(
+    fun buscarPorId(@PathVariable("id") id: Long): ResponseEntity<TopicoView> = ResponseEntity.ok().body(
         TopicoViewMapper().mapper(repository.findById(id)
             .orElseThrow { NotFoundException("Id " + id + " não encontrado") })
     )
 
     @PostMapping
     @CacheEvict("topicos", allEntries = true)
-    fun criarTopico(@RequestBody topico: TopicoDTO): ResponseEntity<TopicoDTO>? {
+    fun criarTopico(@RequestBody topico: TopicoDTO): ResponseEntity<TopicoView> {
         if(topico.autor != null && topico.curso != null){
             val usuario: Usuario = this.usuarioRepository.findById(topico.autor).orElseThrow { NotFoundException("Id " + topico.autor + " não encontrado")  }
             val curso: Curso = this.cursoRepository.findById(topico.curso).orElseThrow { NotFoundException("Id " + topico.curso + " não encontrado")  }
@@ -59,21 +60,20 @@ class TopicoController(
 
             return ResponseEntity.ok().body(TopicoViewMapper().mapper(repository.save(topicoCreate)))
         }
-
-        return null
+        return ResponseEntity.noContent().build();
     }
 
     @GetMapping("/curso")
     fun buscarNomCurso(
         @RequestParam("nomeCurso") nomeCurso: String,
         @PageableDefault(size = 5) pageable: Pageable
-    ): ResponseEntity<List<TopicoDTO>> = ResponseEntity
+    ): ResponseEntity<MutableList<TopicoView>> = ResponseEntity
         .ok()
         .body(repository.findByCursoNome(nomeCurso, pageable).map { x -> TopicoViewMapper().mapper(x) }.toList())
 
     @PutMapping("/{id}")
     @CacheEvict("topicos", allEntries = true)
-    fun atualizarTopico(@PathVariable("id") id: Long, @RequestBody topico: TopicoDTO): ResponseEntity<TopicoDTO>? {
+    fun atualizarTopico(@PathVariable("id") id: Long, @RequestBody topico: TopicoDTO): ResponseEntity<TopicoView> {
         val topicoAtt = repository.findById(id).get()
 
         if(topico.autor != null && topico.curso != null){
@@ -89,7 +89,7 @@ class TopicoController(
             )
             return ResponseEntity.ok().body(TopicoViewMapper().mapper(repository.save(topicoAtualizao)))
         }
-       return null
+        return ResponseEntity.noContent().build();
     }
 
     @DeleteMapping("/{id}")

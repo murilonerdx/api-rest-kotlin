@@ -1,30 +1,25 @@
 package com.murilonerdx.apirestkotlin.model
 
 import com.murilonerdx.apirestkotlin.model.enums.StatusTopico
-import lombok.Data
-import lombok.Getter
-import lombok.Setter
+import java.io.Serializable
+import java.time.LocalDate
 import java.time.LocalDateTime
 import javax.persistence.*
-import kotlin.jvm.Transient
 
-@Data
 @Entity
 data class Topico(
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY) val id: Long? = null,
-    val titulo: String,
-    val mensagem: String,
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    var id: Long? = null,
+    var titulo: String,
+    var mensagem: String,
     val dataCriacao: LocalDateTime = LocalDateTime.now(),
-    @OneToOne  val curso: Curso,
-    @OneToOne val autor: Usuario,
+    @ManyToOne
+    val curso: Curso,
+    @ManyToOne
+    val autor: Usuario,
+    @Enumerated(value = EnumType.STRING)
     val status: StatusTopico = StatusTopico.NAO_RESPONDIDO,
-
-    @Transient
-    val respostas: List<Resposta> = ArrayList()
-
-) {
-
-    override fun toString(): String {
-        return "Topico(id=$id, titulo='$titulo', mensagem='$mensagem', dataCriacao=$dataCriacao, curso=$curso, autor=$autor, status=$status, respostas=$respostas)"
-    }
-}
+    @OneToMany(mappedBy = "topico")
+    val respostas: List<Resposta> = ArrayList(),
+    val dataAlteracao: LocalDate? = null
+) : Serializable

@@ -1,6 +1,5 @@
 package com.murilonerdx.apirestkotlin.security
 
-import com.murilonerdx.apirestkotlin.repository.UsuarioRepository
 import com.murilonerdx.apirestkotlin.service.UsuarioService
 import io.jsonwebtoken.Jwts
 import io.jsonwebtoken.SignatureAlgorithm
